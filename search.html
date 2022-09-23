@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <style>
+            body {
+                background-color: #f5f5f5;
+            }
+
+            .container {
+                margin-top: 50px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1">검색어</span>
+                <input type="text" id="search_keyword" class="form-control" placeholder="키워드 검색" onkeydown="if(event.keyCode == 13) $('#search_btn').click()">
+                <input type="button" class="btn btn-primary" id="search_btn" value="검색">
+            </div>
+            <br>
+
+            <h2>Joy Sound</h2>
+            <p>검색 결과 : <span id="joysound_cnt">0</span>건</p>
+            <table id="joysound_lst" class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>제목</td>
+                        <td>플레이 가능</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">검색어를 입력해주세요.</td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <br>
+
+            <h2>TJ</h2>
+            <p>검색 결과 : <span id="tj_cnt">0</span>건</p>
+            <table id="tj_lst" class="table table-striped">
+                <thead>
+                    <tr>
+                        <td>ID</td>
+                        <td>제목</td>
+                        <td>가수</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="3">검색어를 입력해주세요.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <script>
+        $('#search_btn').click(function(){
+            var search_keyword = $('#search_keyword').val();
+
+            $('#joysound_lst tbody').empty();
+            $('#tj_lst tbody').empty();
+
+            
+            $('#joysound_cnt').text("0");
+            $('#tj_cnt').text("0");
+            
+            $('#joysound_lst tbody').html('<tr><td colspan="3"><img src="https://raw.githubusercontent.com/SamHerbert/SVG-Loaders/master/svg-loaders/rings.svg" /> 검색 중...</td></tr>');
+            $('#tj_lst tbody').html('<tr><td colspan="3"><img src="https://raw.githubusercontent.com/SamHerbert/SVG-Loaders/master/svg-loaders/rings.svg" /> 검색 중...</td></tr>');
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/search/joysound/'+search_keyword,
+                type: 'get',
+                dataType : 'json',
+                success: function(data){
+                    $('#joysound_lst tbody').empty();
+                    var song_list = data['song_list'];
+                    $('#joysound_cnt').text(data['count']);
+                    if(data['count'] == 0){
+                        $('#joysound_lst tbody').html('<tr><td colspan="3">검색 결과가 없습니다.</td></tr>');
+                    }
+
+                    song_list.forEach(function(item){
+                        var tr = $('<tr>');
+                        var td1 = $('<td>');
+                        var td2 = $('<td>');
+                        var td3 = $('<td>');
+                        td1.text(item.song_number);
+                        td2.text(item.song_name);
+                        td3.text(item.available_in_home);
+
+                        tr.append(td1);
+                        tr.append(td2);
+                        tr.append(td3);
+                        $('#joysound_lst tbody').append(tr);
+                    });
+                }
+            });
+
+            $.ajax({
+                url: 'http://127.0.0.1:8000/search/tj/'+search_keyword,
+                type: 'get',
+                dataType : 'json',
+                success: function(data){
+                    $('#tj_lst tbody').empty();
+                    var song_list = data['song_list'];
+                    $('#tj_cnt').text(data['count']);
+                    if(data['count'] == 0){
+                        $('#tj_lst tbody').html('<tr><td colspan="3">검색 결과가 없습니다.</td></tr>');
+                    }
+
+                    song_list.forEach(function(item){
+                        var tr = $('<tr>');
+                        var td1 = $('<td>');
+                        var td2 = $('<td>');
+                        var td3 = $('<td>');
+                        td1.text(item.song_number);
+                        td2.text(item.song_name);
+                        td3.text(item.singer);
+
+                        tr.append(td1);
+                        tr.append(td2);
+                        tr.append(td3);
+                        $('#tj_lst tbody').append(tr);
+                    });
+                }
+            });
+        });
+        </script>
+    </body>
+</html>
