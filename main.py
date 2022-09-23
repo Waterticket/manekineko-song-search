@@ -4,6 +4,7 @@ from selenium import webdriver
 import pyperclip
 import time
 from bs4 import BeautifulSoup
+from urllib import parse
 
 joysound_browser = webdriver.Chrome()
 
@@ -28,7 +29,7 @@ app.add_middleware(
 
 @app.get("/search/joysound/{search_keyword}")
 def get_items(search_keyword: str):
-    joysound_browser.get('https://www.joysound.com/web/search/cross?match=1&keyword='+search_keyword)
+    joysound_browser.get('https://www.joysound.com/web/search/cross?match=1&keyword=' + parse.quote(search_keyword))
     time.sleep(0.5)
 
     html = joysound_browser.page_source
