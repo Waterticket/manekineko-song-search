@@ -34,7 +34,7 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 @app.get("/search/joysound/{search_keyword}")
 def get_items(search_keyword: str):
     joysound_browser.get('https://www.joysound.com/web/search/cross?match=1&keyword=' + parse.quote(search_keyword))
-    time.sleep(0.5)
+    time.sleep(1)
 
     html = joysound_browser.page_source
     soupCB = BeautifulSoup(html, 'html.parser')
