@@ -5,6 +5,7 @@ import pyperclip
 import time
 from bs4 import BeautifulSoup
 from urllib import parse
+from selenium.webdriver.common.by import By
 
 joysound_browser = webdriver.Chrome()
 
@@ -16,6 +17,7 @@ tj_browser.get('https://www.tjmedia.com/tjsong/song_search.asp') # reverer
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
 
 app = FastAPI()
 
@@ -26,6 +28,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/search/joysound/{search_keyword}")
 def get_items(search_keyword: str):
