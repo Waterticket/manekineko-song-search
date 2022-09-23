@@ -62,6 +62,7 @@
         <script>
         $('#search_btn').click(function(){
             var search_keyword = $('#search_keyword').val();
+            search_keyword = encodeURIComponent(search_keyword);
 
             $('#joysound_lst tbody').empty();
             $('#tj_lst tbody').empty();

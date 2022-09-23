@@ -97,6 +97,7 @@ def get_items_tj(search_keyword: str):
     queryInput.click()
     pyperclip.copy(search_keyword)
     queryInput.send_keys(Keys.CONTROL, 'v')
+    queryInput.send_keys(Keys.COMMAND, 'v') # if mac
 
     # 4. 검색
     queryInput.send_keys(Keys.ENTER)
