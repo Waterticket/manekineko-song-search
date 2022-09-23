@@ -83,17 +83,17 @@ def get_items_tj(search_keyword: str):
     tj_browser.get('https://www.tjmedia.com/tjsong/song_search.asp')
 
     # 1. 국가 선택
-    select_element = tj_browser.find_element_by_class_name('searchSelectSongForm1')
+    select_element = tj_browser.find_element(By.CLASS_NAME, 'searchSelectSongForm1')
     select_object = Select(select_element)
     select_object.select_by_value("JPN")
 
     # 2. 곡제목 선택
-    select_element = tj_browser.find_element_by_class_name('searchSelectSongForm2')
+    select_element = tj_browser.find_element(By.CLASS_NAME, 'searchSelectSongForm2')
     select_object = Select(select_element)
     select_object.select_by_value("1")
 
     # 3. 검색어 입력
-    queryInput = tj_browser.find_element_by_class_name('search_input2')
+    queryInput = tj_browser.find_element(By.CLASS_NAME, 'search_input2')
     queryInput.click()
     pyperclip.copy(search_keyword)
     queryInput.send_keys(Keys.CONTROL, 'v')
