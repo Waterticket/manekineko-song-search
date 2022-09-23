@@ -100,6 +100,9 @@
                         tr.append(td3);
                         $('#joysound_lst tbody').append(tr);
                     });
+                },
+                error: function(request, status, error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }
             });
 
@@ -129,6 +132,9 @@
                         tr.append(td3);
                         $('#tj_lst tbody').append(tr);
                     });
+                },
+                error: function(request, status, error){
+                    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
                 }
             });
         });
