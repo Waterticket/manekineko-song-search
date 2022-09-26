@@ -7,12 +7,15 @@ from bs4 import BeautifulSoup
 from urllib import parse
 from selenium.webdriver.common.by import By
 
-joysound_browser = webdriver.Chrome()
+chrome_options = webdriver.ChromeOptions()
+prefs = {"profile.managed_default_content_settings.images": 2}
+chrome_options.add_experimental_option("prefs", prefs)
+joysound_browser = webdriver.Chrome(chrome_options=chrome_options)
 
 joysound_browser.get('https://www.joysound.com') # referer
 joysound_browser.get('https://www.joysound.com/web/search/song/757342') # cache
 
-tj_browser = webdriver.Chrome()
+tj_browser = webdriver.Chrome(chrome_options=chrome_options)
 tj_browser.get('https://www.tjmedia.com/tjsong/song_search.asp') # reverer
 
 from fastapi import FastAPI
